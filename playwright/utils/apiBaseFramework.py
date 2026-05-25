@@ -10,14 +10,12 @@ order_payload = {"orders":[{"country": "Congo, the Democratic Republic of the","
 #token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OWZiNmRkN2ViMDMzM2I2ZGIzOGQyMjQiLCJ1c2VyRW1haWwiOiJoZjE3ODhAZ21haWwuY29tIiwidXNlck1vYmlsZSI6NDQ5NzY5NzcyNSwidXNlclJvbGUiOiJjdXN0b21lciIsImlhdCI6MTc3ODA4NTM0NywiZXhwIjoxODA5NjQyOTQ3fQ.OCb4FbKlOcPqlzz5DwNOquELKN-hI8_cZkPsWXrAkkw"
 class APIUtils:
 
-    def getToken(self, playwright:Playwright, user_credentials=None):
-        if user_credentials is None:
-            raise ValueError("user_credentials must be provided to obtain a token")
-
+    def getToken(self, playwright:Playwright, user_credentials):
+        email = user_credentials["userEmail"]
+        password = user_credentials["userPassword"]
         api_request_context = playwright.request.new_context(base_url="https://rahulshettyacademy.com/")
         response = api_request_context.post(url="/api/ecom/auth/login",
-                                 data={"userEmail": user_credentials["userEmail"],
-                                       "userPassword": user_credentials["userPassword"]})
+                                 data={"userEmail": email, "userPassword": password})
         assert response.ok
 
         print(response.json())

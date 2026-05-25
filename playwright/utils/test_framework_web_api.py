@@ -19,16 +19,13 @@ with open("playwright/data/credentials.json") as f:
         user_credentials_list  = data["user_credentials"]
 
 @pytest.mark.parametrize('user_credentials', user_credentials_list)
-def test_e2e_web_api(playwright:Playwright, user_credentials):
-    browser = playwright.chromium.launch(headless=False)
-    context = browser.new_context()
-    page = context.new_page()
+def test_e2e_web_api(playwright:Playwright, user_credentials, browser_instance):
 
     apiUtils = APIUtils()
     
     orderId = apiUtils.createOrder(playwright, user_credentials)
     
-    loginPage = LoginPage(page)
+    loginPage = LoginPage(browser_instance)
     loginPage.navigate()
     
     dashboardPage = loginPage.login(user_credentials)
@@ -37,4 +34,3 @@ def test_e2e_web_api(playwright:Playwright, user_credentials):
     #orders history
     orderDetailsPage = orderHistoryPage.selectOrder(orderId)
     orderDetailsPage.verifyOrderMessage()
-    context.close()

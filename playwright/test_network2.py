@@ -1,7 +1,7 @@
 from playwright.sync_api import Playwright, expect
 import time
 
-from utils.apiBase import APIUtils
+from utils.apiBaseFramework import APIUtils
 from playwright.sync_api import Page
 
 fakePayloadOrderResponse = {"data":[], "message": "No Orders"}
@@ -38,7 +38,7 @@ def test_session_storage(playwright: Playwright):
     page.add_init_script(f"""window.localStorage.setItem('token', '{token}');""")
     page.goto("https://rahulshettyacademy.com/client")
     page.get_by_role("button",name="ORDERS").click()
-    page.get_by_text("Your Orders").to_be_visible()
+    expect(page.get_by_text("Your Orders")).to_be_visible()
     browser.close()
 
 

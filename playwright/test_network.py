@@ -1,6 +1,7 @@
+import pytest
 from playwright.sync_api import Playwright, expect
 
-from utils.apiBase import APIUtils
+from utils.apiBaseFramework import APIUtils
 from playwright.sync_api import Page
 
 fakePayloadOrderResponse = {"data":[], "message": "No Orders"}
@@ -10,6 +11,7 @@ def intercept_response(route):
         json = fakePayloadOrderResponse
     )
 
+@pytest.mark.smoke
 def test_network(page: Page):
 
     #login

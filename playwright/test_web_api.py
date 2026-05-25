@@ -1,6 +1,6 @@
 from playwright.sync_api import Playwright, expect
 
-from utils.apiBase import APIUtils
+from utils.apiBaseFramework import APIUtils
 
 #create order -> orderId
 
