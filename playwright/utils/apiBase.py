@@ -8,10 +8,12 @@ order_payload = {"orders":[{"country": "Congo, the Democratic Republic of the","
 #token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OWZiNmRkN2ViMDMzM2I2ZGIzOGQyMjQiLCJ1c2VyRW1haWwiOiJoZjE3ODhAZ21haWwuY29tIiwidXNlck1vYmlsZSI6NDQ5NzY5NzcyNSwidXNlclJvbGUiOiJjdXN0b21lciIsImlhdCI6MTc3ODA4NTM0NywiZXhwIjoxODA5NjQyOTQ3fQ.OCb4FbKlOcPqlzz5DwNOquELKN-hI8_cZkPsWXrAkkw"
 class APIUtils:
 
-    def getToken(self, playwright:Playwright):
+    def getToken(self, playwright:Playwright, user_credentials):
+        email = user_credentials["userEmail"]
+        password = user_credentials["userPassword"]
         api_request_context = playwright.request.new_context(base_url="https://rahulshettyacademy.com/")
         response = api_request_context.post(url="/api/ecom/auth/login",
-                                 data={"userEmail":"hf1788@gmail.com","userPassword":"Redfive5.."})
+                                 data={"userEmail": email, "userPassword": password})
         #time.sleep(5)
         #print(f"Status: {response.status}, Body: {response.text()}")
         assert response.ok
@@ -19,8 +21,8 @@ class APIUtils:
         print(response.json())
         return response.json()["token"]
 
-    def createOrder(self,playwright:Playwright):
-        token = self.getToken(playwright)
+    def createOrder(self,playwright:Playwright, user_credentials):
+        token = self.getToken(playwright, user_credentials)
         api_request_context = playwright.request.new_context(base_url="https://rahulshettyacademy.com/")
         response = api_request_context.post(url="/api/ecom/order/create-order",
                                  data=order_payload,
