@@ -20,6 +20,18 @@ def pytest_addoption(parser):
         default="https://rahulshettyacademy.com/client",
         help="URL path for the application under test",
     )
+    parser.addoption(
+        "--headless",
+        action="store_true",
+        default=True,
+        help="Run browser in headless mode",
+    )
+    parser.addoption(
+        "--headed-mode",
+        action="store_false",
+        dest="headless",
+        help="Run browser with UI (headed mode)",
+    )
 
 @pytest.fixture(scope="session")
 def user_credentials(request):
@@ -29,12 +41,13 @@ def user_credentials(request):
 def browser_instance(playwright: Playwright, request):
     browser_name = request.config.getoption("browser_name")
     url_path = request.config.getoption("url_path")
+    headless = request.config.getoption("headless")
     if browser_name == "chromium":
-        browser = playwright.chromium.launch(headless=False)
+        browser = playwright.chromium.launch(headless=headless)
     elif browser_name == "firefox":
-        browser = playwright.firefox.launch(headless=False)
+        browser = playwright.firefox.launch(headless=headless)
     elif browser_name == "webkit":
-        browser = playwright.webkit.launch(headless=False)
+        browser = playwright.webkit.launch(headless=headless)
     else:
         raise ValueError(f"Unsupported browser: {browser_name}")
     context = browser.new_context()

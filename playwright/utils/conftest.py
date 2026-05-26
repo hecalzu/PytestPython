@@ -13,12 +13,13 @@ def preSetupWork():
 def browser_instance(playwright: Playwright, request):
     browser_name = request.config.getoption("browser_name")
     url_path = request.config.getoption("url_path")
+    headless = request.config.getoption("headless", True)
     if browser_name == "chromium":
-        browser = playwright.chromium.launch(headless=False)
+        browser = playwright.chromium.launch(headless=headless)
     elif browser_name == "firefox":
-        browser = playwright.firefox.launch(headless=False)
+        browser = playwright.firefox.launch(headless=headless)
     elif browser_name == "webkit":
-        browser = playwright.webkit.launch(headless=False)
+        browser = playwright.webkit.launch(headless=headless)
     else:
         raise ValueError(f"Unsupported browser: {browser_name}")
     context = browser.new_context()
