@@ -9,10 +9,6 @@ def preSetupWork():
     # Perform any necessary setup work here
     pass
 
-def pytest_addoption(parser):
-    parser.addoption("--browser_name", action="store", default="chromium", help="Browser to run tests on: chromium, firefox, or webkit")
-    parser.addoption("--url_path", action="store", default="https://rahulshettyacademy.com/client", help="URL path for the application under test")
-
 @pytest.fixture
 def browser_instance(playwright: Playwright, request):
     browser_name = request.config.getoption("browser_name")

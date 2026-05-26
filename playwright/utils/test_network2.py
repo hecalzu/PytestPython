@@ -30,7 +30,7 @@ def test_network2(page: Page):
 
 def test_session_storage(playwright: Playwright):
     api_utils =APIUtils()
-    token = api_utils.getToken(playwright)
+    token = api_utils.getToken(playwright, {"userEmail": "hf1788@gmail.com", "userPassword": "Redfive5.."})
     browser = playwright.chromium.launch(headless=False)
     context = browser.new_context()
     page = context.new_page()
